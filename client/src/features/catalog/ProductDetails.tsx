@@ -10,6 +10,8 @@ import {
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import agent from '../../app/api/agent'
+import NotFound from '../../app/errors/NotFound'
+import LoadingComponent from '../../app/layout/LoadingComponent'
 import { Product } from '../../models/product'
 
 export default function ProductDetails() {
@@ -20,13 +22,13 @@ export default function ProductDetails() {
   useEffect(() => {
     agent.Catalog.details(parseInt(id))
       .then((response) => setProduct(response))
-      .catch((error) => console.log(error.response))
+      .catch((error) => console.log(error))
       .finally(() => setLoading(false))
   }, [id]) //component loads when ID changes. Therefore it should be a dependency.
 
-  if (loading) return <h3>Loading...</h3>
+  if (loading) return <LoadingComponent message='Loading Product Details' />
 
-  if (!product) return <h3>Product not found.</h3>
+  if (!product) return <NotFound />
 
   return (
     <Grid container spacing={6}>
