@@ -10,7 +10,9 @@ import {
   Typography,
   Box,
 } from '@mui/material'
-import { NavLink } from 'react-router-dom'
+import { NavLink, Link } from 'react-router-dom'
+import { Basket, BasketItem } from '../../models/basket'
+import { useStoreContext } from '../api/context/storeContext'
 
 interface Props {
   checked: boolean
@@ -41,6 +43,10 @@ const navStyles = {
 }
 
 export default function Header({ checked, handleSwitch }: Props) {
+  const { basket } = useStoreContext()
+
+  let itemCount = basket?.items.reduce((sum, item) => sum + item.quantity, 0)
+  console.log(itemCount)
   return (
     <AppBar position='static' sx={{ mb: 4 }}>
       <Toolbar
@@ -77,8 +83,13 @@ export default function Header({ checked, handleSwitch }: Props) {
         </List>
 
         <Box display='flex' alignItems='center'>
-          <IconButton>
-            <Badge badgeContent={4} color='secondary'>
+          <IconButton
+            component={Link}
+            to='/basket'
+            size='large'
+            sx={{ color: 'inherit' }}
+          >
+            <Badge badgeContent={itemCount} color='secondary'>
               <ShoppingCart></ShoppingCart>
             </Badge>
           </IconButton>

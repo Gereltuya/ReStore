@@ -1,10 +1,12 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
+import { request } from 'http'
 import { toast } from 'react-toastify'
 import { history } from '../..'
 
 const sleep = () => new Promise((resolve) => setTimeout(resolve, 500))
 
 axios.defaults.baseURL = 'http://localhost:5099/api/'
+axios.defaults.withCredentials = true
 
 const responseBody = (response: AxiosResponse) => response.data
 
@@ -67,9 +69,18 @@ const TestErrors = {
   getValidationError: () => requests.get('buggy/validation-error'),
 }
 
+const Basket = {
+  get: () => requests.get('basket'),
+  addItem: (productId: number, quantity = 1) =>
+    requests.post(`basket?productId=${productId}&quantity=${quantity}`, {}),
+  removeItem: (productId: number, quantity = 1) =>
+    requests.delete(`basket?productId=${productId}&quantity=${quantity}`),
+}
+
 const agent = {
   Catalog,
   TestErrors,
+  Basket,
 }
 
 export default agent

@@ -4,13 +4,16 @@ import App from './app/layout/App'
 import { Router } from 'react-router-dom'
 import reportWebVitals from './reportWebVitals'
 import { createBrowserHistory } from 'history'
+import { StoreProvider } from './app/api/context/storeContext'
 
 export const history = createBrowserHistory() //export it out and use it across the app
 
 ReactDOM.render(
   <React.StrictMode>
     <Router history={history}>
-      <App />
+      <StoreProvider>
+        <App />
+      </StoreProvider>
     </Router>
   </React.StrictMode>,
   document.getElementById('root')

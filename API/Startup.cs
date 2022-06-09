@@ -92,7 +92,7 @@ namespace API
             // app.UseCors(_policyName);
             app.UseCors(opt => {
 
-                opt.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
+                opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:3000"); //Allow Credententials to be able to retrieve cookies created via API 
             });
 
             app.UseAuthorization();
